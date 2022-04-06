@@ -6,12 +6,12 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
-    <servlet-name>Servlet</servlet-name>
-    <servlet-class>Servlet</servlet-class>
+    <servlet-name>redis.server.Servlet</servlet-name>
+    <servlet-class>redis.server.Servlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>Servlet</servlet-name>
+    <servlet-name>redis.server.Servlet</servlet-name>
     <url-pattern>/servlet</url-pattern>
   </servlet-mapping>
 
