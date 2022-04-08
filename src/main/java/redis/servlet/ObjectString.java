@@ -1,4 +1,4 @@
-package redis.server;
+package redis.servlet;
 
 import java.util.TreeMap;
 

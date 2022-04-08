@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Client {
     public static void main(String[] args) throws IOException {
         String commandRequest = requestMethod();
+//        System.out.println(commandRequest);
         startGet(commandRequest);
     }
 
@@ -18,34 +19,49 @@ public class Client {
         String command = "0";
         String key = "0";
         String value = "0";
-        String type = "string";
-        StringBuilder str = new StringBuilder();
         String list = "0";
+        String type;
+        String servlet = "servlet";
+        String urlRedis = "http://localhost:8888/";
 
-        String urlRedis = "http://localhost:8888/servlet";
-        System.out.println("Введите команду");
+        StringBuilder str = new StringBuilder();
+
         Scanner sc = new Scanner(System.in);
-        String [] com = sc.nextLine().split(" ");
+        System.out.println("Выберите тип (по умолчанию String).");
+        type = sc.nextLine();
+        System.out.println("Введите команду");
+        String[] com = sc.nextLine().split(" ");
 
         int temp = 0;
         for (String s : com) {
-            if (temp==0) {
-                command = s; temp +=1;
-            } else if(temp==1) {
-                key = s; temp +=1;
-            } else if (temp==2) {
-                value = s; temp +=1;
+            if (temp == 0) {
+                command = s;
+                temp += 1;
+            } else if (temp == 1) {
+                key = s;
+                temp += 1;
+            } else if (temp == 2) {
+                value = s;
+                temp += 1;
             } else {
-                str.append("|"); str.append(s); temp +=1;
+                str.append("|");
+                str.append(s);
+                temp += 1;
             }
         }
 
-        if (value.contains(":")) type = "map";
-        if (str.length()!=0) {
-            type = "list"; list = str.toString();
+
+        if (value.contains(":") || type.equals("MAP")) {
+            servlet = "servletMap";
         }
 
-        return String.format(urlRedis + "?command=%s&key=%s&value=%s&type=%s&list=%s", command, key, value, type, list);
+        if (str.length() != 0 || type.equals("LIST")) {
+            servlet = "servletList";
+            list = str.toString();
+        }
+
+        return String.format(urlRedis + "%s?command=%s&key=%s&value=%s&list=%s",
+                servlet, command, key, value, list);
     }
 
 
@@ -53,14 +69,13 @@ public class Client {
      * Метод соединения с сервером и вывода результат запроса к серверу в терминал.
      */
     public static void startGet(String urlIn) throws IOException {
-        HttpURLConnection connection ;
+        HttpURLConnection connection;
         URL url;
         InputStreamReader inputStream = null;
-        OutputStreamWriter outputStream = null;
         BufferedReader bf = null;
 
         try {
-            url =new URL(urlIn);
+            url = new URL(urlIn);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -71,16 +86,15 @@ public class Client {
                     System.out.println(bf.readLine());
                 }
             } else {
-                System.out.printf("Fail %s", connection.getResponseCode());
+                System.out.printf("Fail %s \n", connection.getResponseCode());
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             assert bf != null;
             bf.close();
             inputStream.close();
         }
     }
-
 }

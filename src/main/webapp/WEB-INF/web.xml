@@ -6,13 +6,30 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
-    <servlet-name>redis.server.Servlet</servlet-name>
-    <servlet-class>redis.server.Servlet</servlet-class>
+    <servlet-name>redis.servlet.Servlet</servlet-name>
+    <servlet-class>redis.servlet.Servlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>redis.servletList.ServletList</servlet-name>
+    <servlet-class>redis.servletList.ServletList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>redis.servletMap.ServletMap</servlet-name>
+    <servlet-class>redis.servletMap.ServletMap</servlet-class>
   </servlet>
 
+
   <servlet-mapping>
-    <servlet-name>redis.server.Servlet</servlet-name>
+    <servlet-name>redis.servlet.Servlet</servlet-name>
     <url-pattern>/servlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>redis.servletList.ServletList</servlet-name>
+    <url-pattern>/servletList</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>redis.servletMap.ServletMap</servlet-name>
+    <url-pattern>/servletMap</url-pattern>
   </servlet-mapping>
 
 </web-app>
